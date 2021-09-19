@@ -6,6 +6,7 @@ import NotBrokenIcon from "../../images/Symbol 331.svg";
 import BrokenIcon from "../../images/Symbol 341.svg";
 import clsx from "clsx";
 import { drawerValueContext } from "../CallWorkboard/CallWorkboard";
+import { Autorenew } from "@material-ui/icons";
 
 const style = {
   CardHeader: {
@@ -91,6 +92,13 @@ const style = {
     animation:'shine1 1s infinite',
     backgroundRepeat:'no-repeat',
     backgroundSize:'3rem 1.4rem,8rem 1.4rem',
+  },
+  dividerCss:{
+    backgroundColor:"#FFFFFF1A",
+    width:'0.2rem',
+    height:'11.2rem',
+    opacity:'0.3'
+
   }
 };
 
@@ -156,18 +164,26 @@ function FirstCard(props) {
         </div>
         <div className={classes.CardContent}>
           <CardContent>
+
             <div
+            
               className={clsx({
                 [classes.highChartSize]: freedaDrawerValue === false,
                 [classes.changedHighChartSize]: freedaDrawerValue === true,
               })}
             >
+                        {Object.keys(data).length === 0 && <div style={{position:'absolute',
+                      width:'20rem',height:'8rem'}}>
+                <Autorenew style={{color:'#FFFFFF80',position:'relative',left:'50%',top:'50%'}}/>
+                <Typography style={{color:'#FFFFFF80',position:'relative',left:'45%',top:'50%'}}>Loading ...</Typography>
+              </div>}
+
               <Highchart
                 id={Math.random().toString()}
-                chartData={(Object.keys(data).length === 0 )? [0.001,0.002,0.001,0.003,0.004] : data.pastDueBucketDocumentAmount}
+                chartData={(Object.keys(data).length === 0 )? [0.1,0.1,0.1,0.1,0.1] : data.pastDueBucketDocumentAmount}
                 data={(Object.keys(data).length === 0)? {bucketNames:["1-30","31-60","61-90","91-180","181-360"]} : data}
                 totalData={totalData}
-                currentDueData={(Object.keys(data).length === 0 )? 0.005 :data.totalCurrentOpenAmount}
+                currentDueData={(Object.keys(data).length === 0 )? 0.1 :data.totalCurrentOpenAmount}
                 windowWidth={windowWidth && windowWidth}
                 windowHeight={windowHeight && windowHeight}
               />
@@ -175,15 +191,14 @@ function FirstCard(props) {
           </CardContent>
           <div>
             <Divider
-              style={{
-                border: "0.0001 rem solid silver",
-                height: "80%",
-                opacity: "0.2",
-              }}
+              classes ={{root:classes.dividerCss}}
+
             />
           </div>
         { (Object.keys(data).length === 0 ) ? <div className={classes.loadingGradient}></div> : <div className={classes.CardIcon}>
-            <Typography className={classes.brokenPromises}>3</Typography>
+            <Typography className={classes.brokenPromises}>              {data.totalBrokenPromises && data.totalBrokenPromises > 0
+                ? data.totalBrokenPromises
+                : null}</Typography>
             <img
               src={NotBrokenIcon}
               alt="CardIcon"

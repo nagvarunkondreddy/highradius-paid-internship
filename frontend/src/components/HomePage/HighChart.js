@@ -24,6 +24,8 @@ export default function Highchart(props) {
           text: "",
         },
         labels: "",
+        min:totalData === 0 ? 0 : null,
+        max: totalData === 0 ? 1 : null
       },
       credits: { enabled: false },
       legend: {
@@ -97,6 +99,7 @@ export default function Highchart(props) {
             chartData[2],
             chartData[3],
             chartData[4],
+            
           ],
         },
       ],
